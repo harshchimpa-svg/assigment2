@@ -1,12 +1,16 @@
 ﻿using Application.Roles.DTO;
+using Domain;
 
 namespace Application.Roles;
 
 public interface IRoleApplication
 {
-    Task<RoleDto> CreateRole(CreateUpdateRoleDto role);
+    Task<Role> AddRole(CreateUpdateRoleDto input);
 
-    Task<RoleDto> GetById(int id);
+    Task<Role> UpdateRole(int id, CreateUpdateRoleDto input);
+
+    Task DeleteRole(int id);
+
     Task<List<RoleDto>> GetAllRoles();
-    Task<string> DeleteRole(int id);
+
 }

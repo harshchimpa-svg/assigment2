@@ -8,37 +8,37 @@ namespace RoleWebApi.Controllers;
 [ApiController]
 public class RoleController : ControllerBase
 {
-    private readonly IRoleApplication _role;
+    private readonly IRoleApplication _roleApplication;
 
     public RoleController(IRoleApplication role)
     {
-        _role = role;
+        _roleApplication = role;
+    }
+
+    [HttpGet]
+    public async Task<List<RoleDto>> GetAllRoles()
+    {
+        return await _roleApplication.GetAllRoles();
     }
 
     [HttpPost]
-    public async Task<int> Post(CreateUpdateRoleDto input)
+    public async Task<IActionResult> CreateRole(CreateUpdateRoleDto role)
     {
-        var data = await _role.CreateRole(input);
-        return data.Id;
+        var result = await _roleApplication.AddRole(role);
+        return Ok(result);
     }
-    [HttpGet]
-    public async Task<List<RoleDto>> GetAll()
-    {
-        return await _role.GetAllRoles();
-    }
-    [HttpGet("{id}")]
-    public async Task<RoleDto> Get(int id)
-    {
-        return await _role.GetById(id);
-    }
+
     [HttpPut("{id}")]
-    public async Task Put(int id, CreateUpdateRoleDto input)
+    public async Task<IActionResult> UpdateRole(int id, CreateUpdateRoleDto input)
     {
-        await _role.GetById(id);
+        var result = await _roleApplication.UpdateRole(id, input);
+        return Ok(result);
     }
+
     [HttpDelete("{id}")]
-    public async Task Delete(int id)
+    public async Task<IActionResult> DeleteRole(int id)
     {
-        await _role.DeleteRole(id);
+        await _roleApplication.DeleteRole(id);
+        return Ok("Role deleted successfully!");
     }
 }
